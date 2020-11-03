@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax Example</title>
+  </head>
+  <body>
+    <input type="submit" value="Send Request" onclick="startRequest();" />
+    <div id="response">
+
+    </div>
+    <script>
+      let xHttp = new XMLHttpRequest();
+
+      const handleStateChange = () => {
+        if (xHttp.readyState == 4) {
+          if (xHttp.status == 200) {
+            document.querySelector("#response").innerHTML=`<p>${xHttp.responseText}</p>`;
+            console.log(typeof xHttp.responseType);
+          }
+        }
+      };
+
+      const startRequest = () => {
+        xHttp.onreadystatechange = handleStateChange();
+        xHttp.open("GET", "http://localhost:5000/");
+
+        xHttp.send(null);
+      };
+    </script>
+  </body>
+</html>

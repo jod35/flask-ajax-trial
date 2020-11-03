@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commenting With Ajax</title>
+</head>
+<body>
+    <h1>Comment</h1>
+    <form action="/add_comment" method="POST">
+        <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
+        <input type="submit" value="Comment" onclick="startRequest();">
+    </form>
+    
+    <h2>Comments</h2>
+    <ul class="comments">
+
+    </ul>
+    <script>
+        const xhttp=new XMLHttpRequest();
+        const comment=document.querySelector('#comment').value;
+        const new_comment=document.createElement("li");
+
+        const comments=document.querySelector(".comments");
+
+        const handleStateChange=()=>{
+            if (xhttp.readyState == 4){
+                if (xhttp.status == 200){
+                    alert("Your comment has been added");
+
+                    console.log(xhttp.responseText);
+
+                    new_comment.innerText=xhttp.responseText;
+                    console.log(new_comment);
+
+                    comments.appendChild(new_comment);
+                }
+            }
+        }
+
+        const startRequest= ()=>{
+            xhttp.open("POST","http://localhost:5000/comment");
+            xhttp.onreadystatechange=handleStateChange();
+            xhttp.send(comment);
+        }
+    </script>
+</body>
+</html>
